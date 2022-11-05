@@ -62,19 +62,19 @@ public class OpenBrowsers {
 		WebDriver driver;
 		if(browser.equals("firefox")) {
 			//Setting webdriver.gecko.driver property
-			System.setProperty("webdriver.gecko.driver", "./drivers/geckodriver.exe");
+			System.setProperty("webdriver.gecko.driver", "./Drivers/geckodriver.exe");
 
 			//Instantiating driver object and launching browser
 			driver = new FirefoxDriver();
 		}else if(browser.equals("chrome")) {
-			System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", "./Drivers/chromedriver.exe");
 
 			//Instantiating driver object
 			driver = new ChromeDriver();
 		}else if(browser.equals("edge")) {
 			System.setProperty(
 					"webdriver.edge.driver",
-					"./drivers/msedgedriver.exe");
+					"./Drivers/msedgedriver.exe");
 			// Instantiate a ChromeDriver class.
 			driver = new EdgeDriver();
 		}else {
