@@ -15,33 +15,33 @@ public class HeaderPage {
     final String mainMenuPageBtnXpath = "//*[@id=\"responsive-navbar-nav\"]/div[1]/a[2]";
     final String loginPageBtnXpath = "//*[@id=\"responsive-navbar-nav\"]/div[2]/a";
     final String specialOrderPageBtnXpath = "//*[@id=\"responsive-navbar-nav\"]/div[1]/button";
-    final String cartPageBtnXpath = "//*[@id=\"responsive-navbar-nav\"]/div[3]/div/i";
+    final String cartPageBtnXpath = "//*[@id=\"cart-btn\"]";
 
     public HeaderPage (WebDriver driver){
         this.driver = driver;
-        this.mainMenuPageBtn = driver.findElement(By.xpath(mainMenuPageBtnXpath));
-        this.loginPageBtn = driver.findElement(By.xpath(loginPageBtnXpath));
-        this.cartPageBtn = driver.findElement(By.xpath(cartPageBtnXpath));
-        this.specialOrderPageBtn = driver.findElement(By.xpath(specialOrderPageBtnXpath));
-        this.mainPageBtn = driver.findElement(By.xpath(mainPageBtnXpath));
     }
     public void loginPageBtnClick(){
+        this.loginPageBtn = driver.findElement(By.xpath(loginPageBtnXpath));
         this.loginPageBtn.click();
     }
 
     public void mainPageBtnClick(){
+        this.mainPageBtn = driver.findElement(By.xpath(mainPageBtnXpath));
         mainPageBtn.click();
     }
 
     public void mainMenuPageBtnClick(){
+        this.mainMenuPageBtn = driver.findElement(By.xpath(mainMenuPageBtnXpath));
         mainMenuPageBtn.click();
     }
 
     public void cartPageBtnClick(){
+        this.cartPageBtn = driver.findElement(By.xpath(cartPageBtnXpath));
         cartPageBtn.click();
     }
 
     public void specialOrderPageBtnClick(){
+        this.specialOrderPageBtn = driver.findElement(By.xpath(specialOrderPageBtnXpath));
         specialOrderPageBtn.click();
     }
 

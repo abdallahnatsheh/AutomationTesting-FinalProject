@@ -5,7 +5,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
 public class Utils {
-    public static Boolean IsElementPresent(By by, WebDriver driver) {
+    public static boolean IsElementPresent(By by, WebDriver driver) {
         try {
             driver.findElement(by);
             return true;
@@ -15,8 +15,8 @@ public class Utils {
         }
     }
 
-    public static Boolean IsElementPresent(By by, WebDriver driver, int sec) throws InterruptedException {
-        Boolean itemExist = false;
+    public static boolean IsElementPresent(By by, WebDriver driver, int sec) throws InterruptedException {
+        boolean itemExist;
 
         itemExist = IsElementPresent(by, driver);
         while (!itemExist && sec >= 0) {
@@ -25,9 +25,10 @@ public class Utils {
             sec--;
         }
 
-        if (sec == -1)
-            return false;
-        else
-            return true;
+        return sec != -1;
+    }
+    public static void timeToWait(double second) throws InterruptedException {
+        double time = second * 1000;
+        Thread.sleep((long) time);
     }
 }

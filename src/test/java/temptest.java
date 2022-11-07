@@ -1,25 +1,66 @@
-import Pages.CustomerPage.HeaderPage;
-import Pages.CustomerPage.LoginPage;
-import Pages.CustomerPage.MainMenuPage;
+import Pages.CustomerPage.*;
 import Tools.OpenBrowsers;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.Test;
 
-import java.util.List;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 
-import static org.testng.AssertJUnit.assertEquals;
 
 public class temptest {
     @Test
     public void testBrowser() throws InterruptedException {
-        WebDriver driver = OpenBrowsers.openBrowser("firefox");
-        driver.get("https://samirest-grill-alpha.web.app/menu");
+        WebDriver driver = OpenBrowsers.openBrowser("chrome");
+        driver.get("https://samirest-grill-alpha.web.app/");
         driver.manage().window().maximize();
         Thread.sleep(5000);
+        HeaderPage headerPage = new HeaderPage(driver);
+        headerPage.mainMenuPageBtnClick();
         MainMenuPage mainMenuPage = new MainMenuPage(driver);
-        int result = mainMenuPage.getMenuItemIndex("سشيبسيش");
+        int result = mainMenuPage.getMenuItemIndex("سيب سيب");
+        assertNotEquals(-1,result);
         mainMenuPage.clickOnMenuItem(result);
+        MenuItemModalPage menuItemModalPage =new MenuItemModalPage(driver);
+        String name = menuItemModalPage.getMealName();
+        assertEquals("سيب سيب",name);
+
+        boolean res = menuItemModalPage.clickOnChosenMealType("بيليبل");
+        assertEquals(true,res);
+
+        boolean res1= menuItemModalPage.clickOnChosenAddons("تجربةتجربة,لالبالبالب");
+        assertEquals(true,res1);
+
+        int numbeforeadd = menuItemModalPage.getNumMealsBeforeAdd();
+        assertEquals(0,numbeforeadd);
+
+        menuItemModalPage.addMeals("5");
+        boolean remove_meals = menuItemModalPage.removeMeals("2");
+        assertEquals(true,remove_meals);
+
+        int numberafterremove = menuItemModalPage.getNumMealsBeforeAdd();
+        assertEquals(3,numberafterremove);
+
+        boolean addmealstocart = menuItemModalPage.addMealsToCart();
+        assertEquals(true,addmealstocart);
+
+        int numincart = menuItemModalPage.GetNumOfMealInCart();
+        assertEquals(3,numincart);
+
+        boolean removefromcart = menuItemModalPage.removeMealsFromCart();
+        assertEquals(true,removefromcart);
+
+        numincart = menuItemModalPage.GetNumOfMealInCart();
+        assertEquals(2,numincart);
+        menuItemModalPage.exitMealModal();
+        headerPage.cartPageBtnClick();
+        CartPage cartPage = new CartPage(driver);
+        int result2 = cartPage.getMenuItemIndex("سيب سيب");
+        cartPage.clickOnMenuItem(result2);
+        CartItemModalPage cartItemModalPage = new CartItemModalPage(driver);
+        String name2 = cartItemModalPage.getMealName();
+        assertEquals("سيب سيب",name2);
+        int numincart2 = cartItemModalPage.GetNumOfMealInCart();
+        assertEquals(2,numincart2);
 //        driver.manage().window().maximize();
 //        Thread.sleep(5000);
 //        HeaderPage headerPage = new HeaderPage(driver);
