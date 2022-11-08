@@ -15,6 +15,16 @@ public class temptest {
         driver.manage().window().maximize();
         Thread.sleep(5000);
         HeaderPage headerPage = new HeaderPage(driver);
+        headerPage.loginPageBtnClick();
+        Thread.sleep(2000);
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.writeEmail("abdnatsheh33@gmail.com");
+        Thread.sleep(2000);
+        loginPage.writePassword("Password321");
+        Thread.sleep(2000);
+        boolean resultlogin = loginPage.clickLoginBtn();
+        assertEquals(true,resultlogin);
+        Thread.sleep(2000);
         headerPage.mainMenuPageBtnClick();
         MainMenuPage mainMenuPage = new MainMenuPage(driver);
         int result = mainMenuPage.getMenuItemIndex("سيب سيب");
@@ -52,15 +62,44 @@ public class temptest {
         numincart = menuItemModalPage.GetNumOfMealInCart();
         assertEquals(2,numincart);
         menuItemModalPage.exitMealModal();
+
         headerPage.cartPageBtnClick();
         CartPage cartPage = new CartPage(driver);
         int result2 = cartPage.getMenuItemIndex("سيب سيب");
         cartPage.clickOnMenuItem(result2);
+
         CartItemModalPage cartItemModalPage = new CartItemModalPage(driver);
         String name2 = cartItemModalPage.getMealName();
         assertEquals("سيب سيب",name2);
+
         int numincart2 = cartItemModalPage.GetNumOfMealInCart();
         assertEquals(2,numincart2);
+        cartItemModalPage.exitMealModal();
+
+        cartPage.clickCheckOutBtn();
+        CheckOutPage checkOutPage = new CheckOutPage(driver);
+        CheckOutOrderItem checkthisitem = checkOutPage.getCheckOutOrderItem("سيب سيب");
+        boolean checkresult = checkthisitem.checkOrderExist("سيب سيب","2","بيليبل","تجربةتجربة,لالبالبالب");
+        assertEquals(true,checkresult);
+        double finalprice = 0.0;
+        finalprice += checkthisitem.getPrice();
+        assertEquals(finalprice,checkOutPage.getFinalPriceE());
+
+
+
+        boolean typeresult = checkOutPage.chooseOrderType("حجز");
+        assertEquals(true,typeresult);
+
+        checkOutPage.writeNotes("تجربة");
+
+        checkOutPage.closeCheckOutDialog();
+        //checkOutPage.clickPayCash();
+
+
+
+
+
+
 //        driver.manage().window().maximize();
 //        Thread.sleep(5000);
 //        HeaderPage headerPage = new HeaderPage(driver);
