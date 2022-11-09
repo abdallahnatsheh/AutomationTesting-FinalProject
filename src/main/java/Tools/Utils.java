@@ -1,8 +1,13 @@
 package Tools;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 public class Utils {
     public static boolean IsElementPresent(By by, WebDriver driver) {
@@ -30,5 +35,9 @@ public class Utils {
     public static void timeToWait(double second) throws InterruptedException {
         double time = second * 1000;
         Thread.sleep((long) time);
+    }
+    public static  void waitForPageLoad(WebDriver driver) {
+        WebElement header = new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"responsive-navbar-nav\"] ")));
     }
 }

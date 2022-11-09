@@ -34,7 +34,7 @@ public class MainMenuPage {
         //WebElement item = menuList.get(index).findElement(By.xpath(xpath));
         WebElement item = menuList.get(index);
         item.click();
-        timeToWait(0.5);
+        timeToWait(1);
     }
 
 

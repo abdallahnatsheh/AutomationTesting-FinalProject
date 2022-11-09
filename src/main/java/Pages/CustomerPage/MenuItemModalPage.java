@@ -49,12 +49,13 @@ public class MenuItemModalPage {
         return  this.mealName.getText();
     }
 
-    public boolean clickOnChosenMealType(String typeName){
+    public boolean clickOnChosenMealType(String typeName) throws InterruptedException {
         WebElement types;
         boolean result = false;
         if(IsElementPresent(By.id(typeName),driver)) {
             types = driver.findElement(By.id(typeName));
             types.click();
+            timeToWait(1);
             result = true;
         }
         return result;
@@ -69,7 +70,7 @@ public class MenuItemModalPage {
                 addonE = driver.findElement(By.id(addon));
                 addonE.click();
                 result = true;
-                timeToWait(0.5);
+                timeToWait(1);
             }
             else {
                 result = false;
@@ -87,7 +88,7 @@ public class MenuItemModalPage {
         int NumOfMealsInt = Integer.parseInt(NumOfMeals);
         for (int i=0 ; i <NumOfMealsInt;i++){
             addMeal.click();
-            timeToWait(0.5);
+            timeToWait(1);
         }
     }
     //remove meal before add to cart

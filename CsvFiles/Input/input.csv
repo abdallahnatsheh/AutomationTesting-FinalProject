@@ -1,0 +1,3 @@
+﻿meal name,quantity,quantity to remove before cart,firstRemovalResult,quantity before remove from cart,final quantity,added meals in cart resutl,removeMealFromCartResult,type,typeResult,addons,addonsResult
+سيب سيب,5,2,TRUE,3,2,TRUE,TRUE,بيليبل,TRUE,"تجربةتجربة,لالبالبالب",TRUE
+بلقثكمنتملبا,3,0,TRUE,3,2,TRUE,TRUE,بلقثكمنتملبا,TRUE,,FALSE
