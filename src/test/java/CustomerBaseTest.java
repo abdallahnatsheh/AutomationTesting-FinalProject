@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import static Tools.Utils.*;
 import static org.testng.Assert.*;
 
-public class CustomeBaseTest {
+public class CustomerBaseTest {
     WebDriver driver;
     HeaderPage headerPage;
     double finalPrice;
@@ -30,16 +30,22 @@ public class CustomeBaseTest {
     }
     @Test(testName = "login-test")
     public void loginTest() throws InterruptedException {
+        //init main page header
         headerPage = new HeaderPage(driver);
+        //go to login page
         headerPage.loginPageBtnClick();
-        Thread.sleep(2000);
+        timeToWait(2);
+
+        //init login page and enter credentials
         LoginPage loginPage = new LoginPage(driver);
         loginPage.writeEmail("abdnatsheh33@gmail.com");
-        Thread.sleep(2000);
+        timeToWait(2);
         loginPage.writePassword("Password321");
-        Thread.sleep(2000);
-        boolean resultlogin = loginPage.clickLoginBtn();
-        assertTrue(resultlogin);
+        timeToWait(2);
+
+        //test if login is successful
+        boolean clickLoginBtnResult = loginPage.clickLoginBtn();
+        assertTrue(clickLoginBtnResult);
     }
     @Test(testName = "add a meal to the cart" , dependsOnMethods = "loginTest",dataProvider = "Data")
     public void testAddMealsToCart(String mealName,String quantity,String qRemoveBeforeAddToCart,String firstRemoveResult , String qBeforeRemoveFromCart,String finalQuantity,String addedMealToCartResult,String removeMealFromCartResult,String type,String typeResult,String addons,String addonsResult) throws InterruptedException {
