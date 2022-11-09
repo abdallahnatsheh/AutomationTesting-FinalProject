@@ -1,0 +1,8 @@
+<suite name="Suite">
+    <test name="Customer Test">
+        <classes>
+            <class name="CustomerBaseTest"/>
+        </classes>
+    </test>
+
+</suite>

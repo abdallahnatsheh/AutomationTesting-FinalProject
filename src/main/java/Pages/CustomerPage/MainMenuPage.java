@@ -30,8 +30,6 @@ public class MainMenuPage {
     }
 
     public void clickOnMenuItem(int index) throws InterruptedException {
-        //final String xpath = "div["+index+"]";
-        //WebElement item = menuList.get(index).findElement(By.xpath(xpath));
         WebElement item = menuList.get(index);
         item.click();
         timeToWait(1);

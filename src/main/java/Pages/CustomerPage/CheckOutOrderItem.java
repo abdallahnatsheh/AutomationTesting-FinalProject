@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class CheckOutOrderItem extends  CheckOutPage {
@@ -38,7 +39,7 @@ public class CheckOutOrderItem extends  CheckOutPage {
         return  Double.parseDouble(price.getText());
     }
     public List<String> getAddons(){
-        return List.of(addons.getText().split("\\s*,\\s*"));
+        return Arrays.asList(addons.getText().split("\\s*,\\s*"));
     }
 
     public String getType() {
@@ -57,7 +58,7 @@ public class CheckOutOrderItem extends  CheckOutPage {
         return type.equals(getType());
     }
     public boolean compareAddons(String addons){
-        List<String> addonsList = List.of(addons.split("\\s*,\\s*"));
+        List<String> addonsList = Arrays.asList(addons.split("\\s*,\\s*"));
         return addonsList.equals(getAddons());
     }
 

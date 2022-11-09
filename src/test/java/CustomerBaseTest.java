@@ -1,11 +1,17 @@
 import Pages.CustomerPage.*;
 import Tools.OpenBrowsers;
+import Tools.TakeScreenShot;
+import io.qameta.allure.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,6 +21,7 @@ import static org.testng.Assert.*;
 public class CustomerBaseTest {
     WebDriver driver;
     HeaderPage headerPage;
+    TakeScreenShot screenShot;
     double finalPrice;
     static final  String inputFilePath = "CsvFiles/Input/input.csv";
     final String webSite = "https://samirest-grill-alpha.web.app/";
@@ -25,6 +32,21 @@ public class CustomerBaseTest {
     public static Object[][] getData() throws Exception{
         return parseCsvFile(inputFilePath);
     }
+    @Attachment(value = "Screenshot", type = "image/png")
+    public static byte[] saveScreenshotPNG(String path) throws IOException {
+        //attach image to allure
+        File file = new File(path);
+        BufferedImage bufferedImage = ImageIO.read(file);
+
+        byte[] image = null;
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            ImageIO.write(bufferedImage, "png", bos);
+            image = bos.toByteArray();
+        } catch (Exception e) {System.out.println(e); }
+        return image;
+    }
+
+
     @BeforeSuite
     public void  initTest() throws IOException {
         finalPrice = 0;
@@ -32,11 +54,15 @@ public class CustomerBaseTest {
         driver = OpenBrowsers.openBrowser(browser);
         driver.get(webSite);
         driver.manage().window().maximize();
+        screenShot = new TakeScreenShot(driver);
         waitForPageLoad(driver);
 
     }
-    @Test(testName = "login-test")
-    public void loginTest() throws InterruptedException {
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("login account test")
+    @Story("Test login as customer from credential file")
+    @Test()
+    public void loginTest() throws InterruptedException, IOException {
         //init main page header
         headerPage = new HeaderPage(driver);
         //go to login page
@@ -53,10 +79,15 @@ public class CustomerBaseTest {
         //test if login is successful
         boolean clickLoginBtnResult = loginPage.clickLoginBtn();
         assertTrue(clickLoginBtnResult);
-    }
-    @Test(testName = "add a meal to the cart" , dependsOnMethods = "loginTest",dataProvider = "Data")
-    public void testAddMealsToCart(String mealName,String quantity,String qRemoveBeforeAddToCart,String firstRemoveResult , String qBeforeRemoveFromCart,String finalQuantity,String addedMealToCartResult,String removeMealFromCartResult,String type,String typeResult,String addons,String addonsResult) throws InterruptedException {
         timeToWait(5);
+        screenShot.takeScreenShot("ScreenShots/loginTestResult.png");
+        saveScreenshotPNG("ScreenShots/loginTestResult.png");
+    }
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("add a meal to the cart")
+    @Story("do several tests to check that every functionality of ordering meals is work as intended")
+    @Test(dependsOnMethods = "loginTest",dataProvider = "Data")
+    public void testAddMealsToCart(String mealName,String quantity,String qRemoveBeforeAddToCart,String firstRemoveResult , String qBeforeRemoveFromCart,String finalQuantity,String addedMealToCartResult,String removeMealFromCartResult,String type,String typeResult,String addons,String addonsResult) throws InterruptedException, IOException {
         headerPage.mainMenuPageBtnClick();
         MainMenuPage mainMenuPage = new MainMenuPage(driver);
 
@@ -108,11 +139,17 @@ public class CustomerBaseTest {
         GetNumOfMealInCartResult = menuItemModalPage.GetNumOfMealInCart();
         assertEquals(Integer.parseInt(finalQuantity),GetNumOfMealInCartResult);
 
+        screenShot.takeScreenShot("ScreenShots/AddMealToCartResult.png");
+        saveScreenshotPNG("ScreenShots/AddMealToCartResult.png");
+
         //close the pop-up modal of the meal
         menuItemModalPage.exitMealModal();
     }
-    @Test(testName = "test meals in cart " , dependsOnMethods = "testAddMealsToCart",dataProvider = "Data")
-    public void testMealsInCart(String mealName,String quantity,String qRemoveBeforeAddToCart,String firstRemoveResult , String qBeforeRemoveFromCart,String finalQuantity,String addedMealToCartResult,String removeMealFromCartResult,String type,String typeResult,String addons,String addonsResult) throws InterruptedException {
+    @Severity(SeverityLevel.NORMAL)
+    @Description("test meals in cart")
+    @Story("check that all the added meals are in cart and shown properly")
+    @Test(dependsOnMethods = "testAddMealsToCart",dataProvider = "Data")
+    public void testMealsInCart(String mealName,String quantity,String qRemoveBeforeAddToCart,String firstRemoveResult , String qBeforeRemoveFromCart,String finalQuantity,String addedMealToCartResult,String removeMealFromCartResult,String type,String typeResult,String addons,String addonsResult) throws InterruptedException, IOException {
         headerPage.cartPageBtnClick();
         CartPage cartPage = new CartPage(driver);
 
@@ -130,12 +167,18 @@ public class CustomerBaseTest {
         int GetNumOfMealInCartResult = cartItemModalPage.GetNumOfMealInCart();
         assertEquals(Integer.parseInt(finalQuantity),GetNumOfMealInCartResult);
 
+        screenShot.takeScreenShot("ScreenShots/MealsInCartResult.png");
+        saveScreenshotPNG("ScreenShots/MealsInCartResult.png");
         //close the pop-up modal of the meal
         cartItemModalPage.exitMealModal();
+
     }
 
-    @Test(testName = "test meals existence and price in checkout " , dependsOnMethods = "testMealsInCart",dataProvider = "Data")
-    public void testMealsInCheckOut(String mealName,String quantity,String qRemoveBeforeAddToCart,String firstRemoveResult , String qBeforeRemoveFromCart,String finalQuantity,String addedMealToCartResult,String removeMealFromCartResult,String type,String typeResult,String addons,String addonsResult) throws InterruptedException {
+    @Severity(SeverityLevel.MINOR)
+    @Description("test meals existence and price in checkout ")
+    @Story("every meal added in cart should be existed in the checkout dialog")
+    @Test(dependsOnMethods = "testMealsInCart",dataProvider = "Data")
+    public void testMealsInCheckOut(String mealName,String quantity,String qRemoveBeforeAddToCart,String firstRemoveResult , String qBeforeRemoveFromCart,String finalQuantity,String addedMealToCartResult,String removeMealFromCartResult,String type,String typeResult,String addons,String addonsResult) throws InterruptedException, IOException {
         //init the checkout dialog page
         CartPage cartPage = new CartPage(driver);
         cartPage.clickCheckOutBtn();
@@ -149,12 +192,17 @@ public class CustomerBaseTest {
         //add its price to be checked later for the final price test
         finalPrice += checkthisitem.getPrice();
 
+        screenShot.takeScreenShot("ScreenShots/MealsInCheckOutResult.png");
+        saveScreenshotPNG("ScreenShots/MealsInCheckOutResult.png");
         //close the pop-up checkout dialog
         checkOutPage.closeCheckOutDialog();
     }
 
-    @Test(testName = "final price test" , dependsOnMethods = "testMealsInCheckOut")
-    public void testFinalPrice() throws InterruptedException {
+    @Severity(SeverityLevel.NORMAL)
+    @Description("final price test")
+    @Story("final step in the test is to checkout testing reservation orders with simple note")
+    @Test(dependsOnMethods = "testMealsInCheckOut")
+    public void testFinalPrice() throws InterruptedException, IOException {
         //init the checkout dialog page
         CartPage cartPage = new CartPage(driver);
         cartPage.clickCheckOutBtn();
@@ -168,6 +216,10 @@ public class CustomerBaseTest {
         assertTrue(chooseOrderTypeResult);
         checkOutPage.writeNotes("تجربة");
         timeToWait(2);
+
+        screenShot.takeScreenShot("ScreenShots/FinalPriceResult.png");
+        saveScreenshotPNG("ScreenShots/FinalPriceResult.png");
+
         boolean clickPayCashResult = checkOutPage.clickPayCash();
         assertTrue(clickPayCashResult);
     }
