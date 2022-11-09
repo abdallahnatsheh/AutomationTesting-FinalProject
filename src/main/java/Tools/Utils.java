@@ -1,14 +1,19 @@
 package Tools;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 public class Utils {
     public static boolean IsElementPresent(By by, WebDriver driver) {
@@ -51,5 +56,24 @@ public class Utils {
             index++;
         }
         return data;
+    }
+
+    public static List<String> readCredentials(String path) throws IOException {
+        // list that holds strings of a file
+        List<String> listOfStrings = new ArrayList<>();
+
+        // load data from file
+        BufferedReader bf = new BufferedReader(new FileReader(path));
+
+        // read entire line as string
+        String line = bf.readLine();
+
+        // checking for end of file
+        while (line != null) {
+            listOfStrings.add(line);
+            line = bf.readLine();
+        }
+        bf.close();
+        return  listOfStrings;
     }
 }

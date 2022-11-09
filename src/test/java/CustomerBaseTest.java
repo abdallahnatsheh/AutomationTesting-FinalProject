@@ -5,6 +5,9 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+import java.util.List;
+
 import static Tools.Utils.*;
 import static org.testng.Assert.*;
 
@@ -15,13 +18,16 @@ public class CustomerBaseTest {
     static final  String inputFilePath = "CsvFiles/Input/input.csv";
     final String webSite = "https://samirest-grill-alpha.web.app/";
     final String browser = "chrome";
+    final String loginCredentials = "Creds/customer.creds";
+    List<String> credentials;
     @DataProvider(name = "Data")
     public static Object[][] getData() throws Exception{
         return parseCsvFile(inputFilePath);
     }
     @BeforeSuite
-    public void  initTest(){
+    public void  initTest() throws IOException {
         finalPrice = 0;
+        credentials = readCredentials(loginCredentials);
         driver = OpenBrowsers.openBrowser(browser);
         driver.get(webSite);
         driver.manage().window().maximize();
@@ -38,9 +44,9 @@ public class CustomerBaseTest {
 
         //init login page and enter credentials
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.writeEmail("abdnatsheh33@gmail.com");
+        loginPage.writeEmail(credentials.get(0));
         timeToWait(2);
-        loginPage.writePassword("Password321");
+        loginPage.writePassword(credentials.get(1));
         timeToWait(2);
 
         //test if login is successful
