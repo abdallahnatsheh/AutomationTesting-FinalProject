@@ -1,6 +1,7 @@
 import Pages.CustomerPage.*;
 import Tools.OpenBrowsers;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -161,6 +162,18 @@ public class CustomerBaseTest {
 
         //test if the final price of all the requested meals is equal to what written in the checkout page
         assertEquals(finalPrice,checkOutPage.getFinalPriceE());
+
+        //make checkout
+        boolean chooseOrderTypeResult = checkOutPage.chooseOrderType("حجز");
+        assertTrue(chooseOrderTypeResult);
+        checkOutPage.writeNotes("تجربة");
+        timeToWait(2);
+        boolean clickPayCashResult = checkOutPage.clickPayCash();
+        assertTrue(clickPayCashResult);
+    }
+    @AfterSuite
+    public void afterSuite(){
+        driver.close();
     }
 }
 

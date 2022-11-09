@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import static Tools.Utils.IsElementPresent;
+import static Tools.Utils.timeToWait;
 
 public class CheckOutPage {
     WebDriver driver;
@@ -42,9 +43,10 @@ public class CheckOutPage {
         this.orderNotes.sendKeys(notes);
     }
 
-    public boolean clickPayCash (){
+    public boolean clickPayCash () throws InterruptedException {
         if(this.payCash.isEnabled()){
             payCash.click();
+            timeToWait(2);
             return true;
         }
         else
