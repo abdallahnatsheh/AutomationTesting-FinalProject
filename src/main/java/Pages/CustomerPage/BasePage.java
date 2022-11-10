@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class HeaderPage {
+public class BasePage {
     WebDriver driver;
     WebElement mainPageBtn;
     WebElement mainMenuPageBtn;
@@ -17,7 +17,7 @@ public class HeaderPage {
     final String specialOrderPageBtnXpath = "//*[@id=\"responsive-navbar-nav\"]/div[1]/button";
     final String cartPageBtnXpath = "//*[@id=\"cart-btn\"]";
 
-    public HeaderPage (WebDriver driver){
+    public BasePage (WebDriver driver){
         this.driver = driver;
     }
     public void loginPageBtnClick(){

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import static Tools.Utils.timeToWait;
 
-public class MainMenuPage extends HeaderPage {
+public class MainMenuPage extends BasePage {
     ArrayList<WebElement> menuList;
     final String menuListXpath = "//*[@class='item menuItems']";
     final String itemsXpath = "div[1]/p";

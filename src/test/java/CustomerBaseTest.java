@@ -20,7 +20,7 @@ import static org.testng.Assert.*;
 
 public class CustomerBaseTest {
     WebDriver driver;
-    HeaderPage headerPage;
+    BasePage basePage;
     TakeScreenShot screenShot;
     double finalPrice;
     static final  String inputFilePath = "CsvFiles/Input/input.csv";
@@ -63,10 +63,10 @@ public class CustomerBaseTest {
     @Story("Test login as customer from credential file")
     @Test()
     public void loginTest() throws InterruptedException, IOException {
-        //init main page header
-        headerPage = new HeaderPage(driver);
+        //init main base page
+        basePage = new BasePage(driver);
         //go to login page
-        headerPage.loginPageBtnClick();
+        basePage.loginPageBtnClick();
         timeToWait(2);
 
         //init login page and enter credentials
@@ -88,7 +88,7 @@ public class CustomerBaseTest {
     @Story("do several tests to check that every functionality of ordering meals is work as intended")
     @Test(dependsOnMethods = "loginTest",dataProvider = "Data")
     public void testAddMealsToCart(String mealName,String quantity,String qRemoveBeforeAddToCart,String firstRemoveResult , String qBeforeRemoveFromCart,String finalQuantity,String addedMealToCartResult,String removeMealFromCartResult,String type,String typeResult,String addons,String addonsResult) throws InterruptedException, IOException {
-        headerPage.mainMenuPageBtnClick();
+        basePage.mainMenuPageBtnClick();
         MainMenuPage mainMenuPage = new MainMenuPage(driver);
 
         //get index of the meal in main menu
@@ -150,7 +150,7 @@ public class CustomerBaseTest {
     @Story("check that all the added meals are in cart and shown properly")
     @Test(dependsOnMethods = "testAddMealsToCart",dataProvider = "Data")
     public void testMealsInCart(String mealName,String quantity,String qRemoveBeforeAddToCart,String firstRemoveResult , String qBeforeRemoveFromCart,String finalQuantity,String addedMealToCartResult,String removeMealFromCartResult,String type,String typeResult,String addons,String addonsResult) throws InterruptedException, IOException {
-        headerPage.cartPageBtnClick();
+        basePage.cartPageBtnClick();
         CartPage cartPage = new CartPage(driver);
 
         //check if meal exist in cart from the cart page (not the preview like the previous test)

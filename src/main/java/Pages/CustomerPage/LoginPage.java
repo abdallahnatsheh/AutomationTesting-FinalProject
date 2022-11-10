@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 
 import static Tools.Utils.IsElementPresent;
 
-public class LoginPage extends HeaderPage {
+public class LoginPage extends BasePage {
     WebElement email;
     WebElement password;
     WebElement loginBtn;
