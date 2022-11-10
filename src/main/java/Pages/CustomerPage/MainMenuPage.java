@@ -7,15 +7,13 @@ import java.util.ArrayList;
 
 import static Tools.Utils.timeToWait;
 
-public class MainMenuPage {
-    WebDriver driver;
+public class MainMenuPage extends HeaderPage {
     ArrayList<WebElement> menuList;
-////*[@id="root"]//*/main
     final String menuListXpath = "//*[@class='item menuItems']";
     final String itemsXpath = "div[1]/p";
 
     public MainMenuPage (WebDriver driver){
-        this.driver = driver;
+        super(driver);
         this.menuList = (ArrayList<WebElement>) driver.findElements(By.xpath(menuListXpath));
     }
 

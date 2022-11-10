@@ -10,8 +10,7 @@ import java.util.List;
 import static Tools.Utils.IsElementPresent;
 import static Tools.Utils.timeToWait;
 
-public class MenuItemModalPage {
-    WebDriver driver;
+public class MenuItemModalPage extends MainMenuPage {
     WebElement closeModal;
     WebElement mealName;
     WebElement addMealToCartBtnNotEmpty;
@@ -36,7 +35,7 @@ public class MenuItemModalPage {
     final String numOfMealInCartXpath = "//*[@id=\"in-cart\"]/span";
 
     public MenuItemModalPage(WebDriver driver){
-        this.driver = driver;
+        super(driver);
         this.closeModal = driver.findElement(By.className(closeModalClassName));
         this.mealName = driver.findElement(By.id(mealNameId));
         this.addMealToCartBtnEmpty = driver.findElement(By.id(addMealToCartBtnEmptyId));

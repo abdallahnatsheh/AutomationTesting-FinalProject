@@ -7,8 +7,7 @@ import org.openqa.selenium.WebElement;
 import static Tools.Utils.IsElementPresent;
 import static Tools.Utils.timeToWait;
 
-public class CheckOutPage {
-    WebDriver driver;
+public class CheckOutPage extends CartPage {
     WebElement finalPriceE;
     WebElement orderTypelRadio;
     WebElement orderNotes;
@@ -16,7 +15,7 @@ public class CheckOutPage {
     WebElement closeCheckOut;
 
     public CheckOutPage (WebDriver driver){
-        this.driver = driver;
+        super(driver);
         this.finalPriceE = driver.findElement(By.id("final-price"));
         this.orderNotes = driver.findElement(By.id("order-notes"));
         this.payCash =driver.findElement(By.id("pay-cash"));

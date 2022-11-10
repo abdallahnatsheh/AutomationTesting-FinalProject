@@ -6,8 +6,7 @@ import org.openqa.selenium.WebElement;
 
 import static Tools.Utils.IsElementPresent;
 
-public class LoginPage {
-    WebDriver driver;
+public class LoginPage extends HeaderPage {
     WebElement email;
     WebElement password;
     WebElement loginBtn;
@@ -17,8 +16,8 @@ public class LoginPage {
     final String emailErrorId = "invalid-email";
     final String passwordErrorId = "invalid-password";
     final String errorMessage = "div[role = 'alert']";
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
+    public LoginPage(WebDriver driver)  {
+        super(driver);
         this.email = driver.findElement(By.id(emailId));
         this.password = driver.findElement(By.id(passwordId));
         this.loginBtn = driver.findElement(By.id(loginBtnId));

@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CheckOutOrderItem extends  CheckOutPage {
-    WebDriver driver;
     WebElement order;
     WebElement quantity;
     WebElement name;
