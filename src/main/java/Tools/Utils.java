@@ -41,9 +41,9 @@ public class Utils {
         double time = second * 1000;
         Thread.sleep((long) time);
     }
-    public static  void waitForPageLoad(WebDriver driver) {
+    public static  void waitForPageLoad(WebDriver driver, String xpath) {
         WebElement header = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"responsive-navbar-nav\"] ")));
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
     }
     public static Object[][] parseCsvFile(String filePath) throws Exception{
         List<String[]> lines = ReadCsvFile.readAllLines(filePath);

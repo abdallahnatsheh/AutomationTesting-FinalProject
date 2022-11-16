@@ -27,6 +27,7 @@ public class CustomerBaseTest {
     final String webSite = "https://samirest-grill-alpha.web.app/";
     final String browser = "chrome";
     final String loginCredentials = "Creds/customer.creds";
+    final String headerXpath = "//*[@id=\"responsive-navbar-nav\"] ";
     List<String> credentials;
     @DataProvider(name = "Data")
     public static Object[][] getData() throws Exception{
@@ -55,7 +56,7 @@ public class CustomerBaseTest {
         driver.get(webSite);
         driver.manage().window().maximize();
         screenShot = new TakeScreenShot(driver);
-        waitForPageLoad(driver);
+        waitForPageLoad(driver,headerXpath);
 
     }
     @Severity(SeverityLevel.BLOCKER)
