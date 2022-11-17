@@ -1,20 +1,34 @@
 package Pages.AdminPage;
 
+import Tools.Table;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class OrdersPage extends BasePage {
+import java.util.List;
 
-    WebElement tableOrderByDate;
-    final String tableOrderByDateXpath = "//*[@id=\"content\"]/div[2]/table/thead/tr/th[2]";
+public class OrdersPage extends BasePage {
+    WebElement ordersTableEL;
+    Table ordersTable;
+    final String ordersTableXpath = "//*[@id=\"content\"]/div[2]/table";
+
 
     public OrdersPage(WebDriver driver) {
         super(driver);
+        this.ordersTableEL = driver.findElement(By.xpath(ordersTableXpath));
+        this.ordersTable = new Table(driver,ordersTableEL);
+
     }
     public void orderTableByDate(){
-        this.tableOrderByDate = driver.findElement(By.id(tableOrderByDateXpath));
-        this.tableOrderByDate.click();
-        this.tableOrderByDate.click();
+        WebElement orderDate = this.ordersTable.getHeadersElementsByIndex(1);
+        orderDate.click();
+        orderDate.click();
     }
+    public String getFirstRowFinalPrice(){
+       return this.ordersTable.getCellValue(0,"₪ السعر كاملا");
+    }
+    public void clickOnFirstResult(){
+        ordersTable.getRowsElementsByIndex(0).click();
+    }
+
 }

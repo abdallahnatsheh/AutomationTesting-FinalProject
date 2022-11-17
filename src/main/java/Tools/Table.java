@@ -27,10 +27,18 @@ public class Table {
         List<WebElement> headers = table.findElements(By.xpath("//thead/tr/th"));
         return headers;
     }
+    public WebElement getHeadersElementsByIndex(int index){
+        List<WebElement> headers = table.findElements(By.xpath("//thead/tr/th"));
+        return headers.get(index);
+    }
 
     public List<WebElement> getRowsElements(){
         List<WebElement> rows = table.findElements(By.xpath("//tbody/tr"));
         return rows;
+    }
+    public WebElement getRowsElementsByIndex(int index){
+        List<WebElement> rows = table.findElements(By.xpath("//tbody/tr"));
+        return rows.get(index);
     }
 
     public int getRowNumber() {
