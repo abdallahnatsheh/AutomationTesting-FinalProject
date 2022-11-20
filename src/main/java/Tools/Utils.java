@@ -57,6 +57,26 @@ public class Utils {
         return data;
     }
 
+    public static boolean  writeCsvFileResult(int finalPrice , String userEmail , String filePath){
+        String[] Headers = {"email","finalPrice"};
+        String [] result = {userEmail, String.valueOf(finalPrice)};
+        List<String[]> data = new ArrayList<>();
+        data.add(result);
+        try {
+            WriteCsvFile.writeDataLineByLine(filePath,data,Headers);
+            return true;
+        }catch (Exception e){
+            System.out.println(e);
+            return false;
+        }
+    }
+    public static List<String[]> readCsvFileResult(String filePath) throws Exception {
+        List<String[]> data = ReadCsvFile.readAllLines(filePath);
+        data.remove(0);
+       return  data;
+    }
+
+
     public static List<String> readCredentials(String path) throws IOException {
         // list that holds strings of a file
         List<String> listOfStrings = new ArrayList<>();

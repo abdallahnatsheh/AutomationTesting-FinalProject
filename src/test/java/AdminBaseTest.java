@@ -6,11 +6,13 @@ import Tools.OpenBrowsers;
 import Tools.TakeScreenShot;
 import io.qameta.allure.*;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,6 +30,8 @@ public class AdminBaseTest {
     TakeScreenShot screenShot;
     double finalPrice;
     static final  String inputFilePath = "CsvFiles/Input/input.csv";
+    static final  String customerOutputFilePath = "CsvFiles/Output/output.csv";
+
     final String webSite = "https://admin-samirest-grill-alpha.web.app/";
     final String browser = "chrome";
     final String loginCredentials = "Creds/admin.creds";
@@ -35,6 +39,11 @@ public class AdminBaseTest {
     final String AdminLoginTestResultSH = "ScreenShots/AdminLoginTestResult.png";
     final String AdminFirstOrderPageSH = "ScreenShots/AdminFirstOrderPage.png";
     List<String> credentials;
+    List<String[]> customerTestResult;
+
+    double customerFinalPrice;
+    String customerEmail;
+
     @DataProvider(name = "Data")
     public static Object[][] getData() throws Exception{
         return parseCsvFile(inputFilePath);
@@ -56,8 +65,11 @@ public class AdminBaseTest {
 
 
     @BeforeSuite
-    public void  initTest() throws IOException, InterruptedException {
+    public void  initTest() throws Exception {
         credentials = readCredentials(loginCredentials);
+        customerTestResult = readCsvFileResult(customerOutputFilePath);
+        customerFinalPrice = Double.parseDouble(customerTestResult.get(0)[1]);
+        customerEmail = customerTestResult.get(0)[0];
         driver = OpenBrowsers.openBrowser(browser);
         driver.get(webSite);
         driver.manage().window().maximize();
@@ -97,7 +109,7 @@ public class AdminBaseTest {
         OrdersPage ordersPage = new OrdersPage(driver);
         ordersPage.orderTableByDate();
         finalPrice = Double.parseDouble(ordersPage.getFirstRowFinalPrice());
-        assertEquals(162.0,finalPrice);
+        assertEquals(customerFinalPrice,finalPrice);
         ordersPage.clickOnFirstResult();
         timeToWait(2);
         screenShot.takeScreenShot(AdminFirstOrderPageSH);
@@ -110,9 +122,15 @@ public class AdminBaseTest {
     @Test(dependsOnMethods = "openOrdersPage",dataProvider = "Data")
     public void testSentOrder(String mealName,String quantity,String qRemoveBeforeAddToCart,String firstRemoveResult , String qBeforeRemoveFromCart,String finalQuantity,String addedMealToCartResult,String removeMealFromCartResult,String type,String typeResult,String addons,String addonsResult) {
         OrdersDetailsPage ordersDetailsPage = new OrdersDetailsPage(driver);
+        String cEmail = ordersDetailsPage.getCustomerEmail();
+        assertEquals(cEmail,customerEmail);
         ordersDetailsPage.parseOrderList();
         boolean checkResult = ordersDetailsPage.isOrderExist(mealName,Integer.parseInt(finalQuantity),type,addons);
         assertTrue(checkResult);
+    }
+    @AfterSuite
+    public void afterSuite(){
+        driver.close();
     }
 
 }

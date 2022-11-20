@@ -24,6 +24,7 @@ public class CustomerBaseTest {
     TakeScreenShot screenShot;
     double finalPrice;
     static final  String inputFilePath = "CsvFiles/Input/input.csv";
+    static final  String outputFilePath = "CsvFiles/Output/output.csv";
     final String webSite = "https://samirest-grill-alpha.web.app/";
     final String browser = "chrome";
     final String loginCredentials = "Creds/customer.creds";
@@ -45,6 +46,10 @@ public class CustomerBaseTest {
             image = bos.toByteArray();
         } catch (Exception e) {System.out.println(e); }
         return image;
+    }
+    @Attachment(value = "TestResultReport", type = "text/csv", fileExtension = ".csv")
+    public static String attachCSV(final String csv) {
+        return csv;
     }
 
 
@@ -223,6 +228,15 @@ public class CustomerBaseTest {
 
         boolean clickPayCashResult = checkOutPage.clickPayCash();
         assertTrue(clickPayCashResult);
+    }
+
+    @Test(dependsOnMethods = "testFinalPrice")
+    @Description("saving final result in csv and attach it to allure report")
+    public void writeFinalResultToFile() throws InterruptedException {
+        boolean writeResult = writeCsvFileResult((int) finalPrice,credentials.get(0),outputFilePath);
+        assertTrue(writeResult);
+        timeToWait(1);
+        attachCSV(outputFilePath);
     }
     @AfterSuite
     public void afterSuite(){

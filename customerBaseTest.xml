@@ -4,5 +4,10 @@
             <class name="CustomerBaseTest"/>
         </classes>
     </test>
+    <test name="Admin Test">
+        <classes>
+            <class name="AdminBaseTest"/>
+        </classes>
+    </test>
 
 </suite>

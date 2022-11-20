@@ -10,11 +10,16 @@ import java.util.List;
 public class OrdersDetailsPage extends OrdersPage {
     List<WebElement> orderList;
     List<OrderDetail> detailedOrderList;
+    WebElement customerEmail;
+    final String customerEmailId = "customer-email";
+
 
     public OrdersDetailsPage(WebDriver driver) {
         super(driver);
         this.orderList = driver.findElements(By.xpath("//*[@id=\"order-details\"]/div"));
         this.detailedOrderList = new ArrayList<>();
+        this.customerEmail = driver.findElement(By.id(customerEmailId));
+
     }
     public void parseOrderList(){
         for (WebElement order:orderList) {
@@ -28,5 +33,8 @@ public class OrdersDetailsPage extends OrdersPage {
                 resultFlag = true;
         }
         return resultFlag;
+    }
+    public String getCustomerEmail(){
+        return this.customerEmail.getText();
     }
 }
