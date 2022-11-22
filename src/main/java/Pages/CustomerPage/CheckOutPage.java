@@ -9,7 +9,7 @@ import static Tools.Utils.timeToWait;
 
 public class CheckOutPage extends CartPage {
     WebElement finalPriceE;
-    WebElement orderTypelRadio;
+    WebElement orderTypeRadio;
     WebElement orderNotes;
     WebElement payCash;
     WebElement closeCheckOut;
@@ -31,8 +31,8 @@ public class CheckOutPage extends CartPage {
     }
     public boolean chooseOrderType(String ordeType){
         if(IsElementPresent(By.id(ordeType),driver)){
-            orderTypelRadio = driver.findElement(By.id(ordeType));
-            orderTypelRadio.click();
+            orderTypeRadio = driver.findElement(By.id(ordeType));
+            orderTypeRadio.click();
             return true;
         }else
             return false;

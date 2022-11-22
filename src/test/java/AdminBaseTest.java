@@ -12,7 +12,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -63,7 +62,7 @@ public class AdminBaseTest {
         return image;
     }
 
-
+    //initialise the requirements data and open the browser
     @BeforeSuite
     public void  initTest() throws Exception {
         credentials = readCredentials(loginCredentials);
@@ -78,11 +77,13 @@ public class AdminBaseTest {
         waitForPageLoad(driver,loginForm);
     }
 
+    //login test credentials if it's right or not
     @Severity(SeverityLevel.BLOCKER)
     @Description("login account test")
     @Story("Test login as an admin from credential file")
     @Test()
     public void loginTest() throws InterruptedException, IOException {
+
         //init login page and enter credentials
         LoginPage loginPage = new LoginPage(driver);
         loginPage.writeEmail(credentials.get(0));
@@ -106,12 +107,20 @@ public class AdminBaseTest {
         BasePage basePage = new BasePage(driver);
         basePage.ordersPageClick();
         timeToWait(2);
+
+        //init order page and order the table from last meal to first one
         OrdersPage ordersPage = new OrdersPage(driver);
         ordersPage.orderTableByDate();
+
+        //get the final price of the last meal and test if it's same as the customer order one
         finalPrice = Double.parseDouble(ordersPage.getFirstRowFinalPrice());
         assertEquals(customerFinalPrice,finalPrice);
+
+        //click on that first result to show the details
         ordersPage.clickOnFirstResult();
         timeToWait(2);
+
+        //take screenshot save to disk then to allure report
         screenShot.takeScreenShot(AdminFirstOrderPageSH);
         saveScreenshotPNG(AdminFirstOrderPageSH);
     }
@@ -121,10 +130,17 @@ public class AdminBaseTest {
     @Story("admin should get the customer's order and here we check if its exist")
     @Test(dependsOnMethods = "openOrdersPage",dataProvider = "Data")
     public void testSentOrder(String mealName,String quantity,String qRemoveBeforeAddToCart,String firstRemoveResult , String qBeforeRemoveFromCart,String finalQuantity,String addedMealToCartResult,String removeMealFromCartResult,String type,String typeResult,String addons,String addonsResult) {
+        //init the detail page
         OrdersDetailsPage ordersDetailsPage = new OrdersDetailsPage(driver);
+
+        //get the email of the customer and test if it's same as in the details
         String cEmail = ordersDetailsPage.getCustomerEmail();
         assertEquals(cEmail,customerEmail);
+
+        //parse the details
         ordersDetailsPage.parseOrderList();
+
+        //check if the order details same as in the csv file
         boolean checkResult = ordersDetailsPage.isOrderExist(mealName,Integer.parseInt(finalQuantity),type,addons);
         assertTrue(checkResult);
     }

@@ -3,10 +3,6 @@ package Pages.CustomerPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import java.util.Arrays;
-import java.util.List;
-
 import static Tools.Utils.IsElementPresent;
 import static Tools.Utils.timeToWait;
 
@@ -27,7 +23,6 @@ public class MenuItemModalPage extends MainMenuPage {
     final String mealNameId = "meal-name";
     final String addMealToCartBtnNotEmptyId = "add-meal-not-empty";
     final String addMealToCartBtnEmptyId = "add-meal-empty";
-
     final String addMealId = "meal-plus";
     final String removeMealId = "meal-minus";
     final String removeMealFromCartId= "remove-meal";

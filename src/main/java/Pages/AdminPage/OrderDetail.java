@@ -7,21 +7,22 @@ import org.openqa.selenium.WebElement;
 import java.util.Arrays;
 import java.util.List;
 
-public class OrderDetail {
-    WebDriver driver;
+public class OrderDetail extends OrdersDetailsPage {
     WebElement orderNameEL;
     WebElement orderTypeEL;
     WebElement orderQuantityEL;
-    WebElement orderPriceEL;
     WebElement order;
+    final String orderNameId = "order-name";
+    final String orderTypeId = "order-type";
+    final String orderQuantityId = "order-quantity";
+
 
     public OrderDetail(WebDriver driver,WebElement order){
-        this.driver = driver;
+        super(driver);
         this.order = order;
-        this.orderNameEL = order.findElement(By.id("order-name"));
-        this.orderTypeEL = order.findElement(By.id("order-type"));
-        this.orderQuantityEL = order.findElement(By.id("order-quantity"));
-        this.orderPriceEL = order.findElement(By.id("order-price"));
+        this.orderNameEL = order.findElement(By.id(orderNameId));
+        this.orderTypeEL = order.findElement(By.id(orderTypeId));
+        this.orderQuantityEL = order.findElement(By.id(orderQuantityId));
     }
 
     public String getOrderName(){
@@ -35,9 +36,6 @@ public class OrderDetail {
     }
     public int getOrderQuantity(){
         return Integer.parseInt(this.orderQuantityEL.getText());
-    }
-    public double getOrderPrice() {
-        return Double.parseDouble(this.orderPriceEL.getText());
     }
     public boolean compareAddons(String addons){
         List<String> addonsList = Arrays.asList(addons.split("\\s*,\\s*"));

@@ -53,6 +53,7 @@ public class CustomerBaseTest {
     }
 
 
+    //get the initial requirements then start the browser
     @BeforeSuite
     public void  initTest() throws IOException {
         finalPrice = 0;

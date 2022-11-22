@@ -26,6 +26,7 @@ public class OrdersDetailsPage extends OrdersPage {
             detailedOrderList.add(new OrderDetail(driver,order));
         }
     }
+    //check if order exist in the list of orders
     public boolean isOrderExist(String mealName,int finalQuantity,String type,String addons){
         boolean resultFlag = false;
         for (OrderDetail orderD:detailedOrderList) {
