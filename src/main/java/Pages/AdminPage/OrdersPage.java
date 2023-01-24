@@ -18,15 +18,32 @@ public class OrdersPage extends BasePage {
         this.ordersTable = new Table(driver,ordersTableEL);
     }
     public void orderTableByDate(){
-        WebElement orderDate = this.ordersTable.getHeadersElementsByIndex(1);
-        orderDate.click();
-        orderDate.click();
+        try{
+            WebElement orderDate = this.ordersTable.getHeadersElementsByIndex(1);
+            orderDate.click();
+            orderDate.click();
+        }catch (Exception e){
+            System.out.println("error in ordering table by date");
+            e.printStackTrace();
+        }
+
     }
     public String getFirstRowFinalPrice(){
-       return this.ordersTable.getCellValue(0,"₪ السعر كاملا");
+        try{
+            return this.ordersTable.getCellValue(0,"₪ السعر كاملا");
+        }catch (Exception e){
+            System.out.println("error in getting first row final price");
+            e.printStackTrace();
+            return null;
+        }
     }
     public void clickOnFirstResult(){
-        ordersTable.getRowsElementsByIndex(0).click();
+        try {
+            ordersTable.getRowsElementsByIndex(0).click();
+        }catch (Exception e){
+            System.out.println("error in clicking on first row");
+            e.printStackTrace();
+        }
     }
 
 }

@@ -40,105 +40,170 @@ public class MenuItemModalPage extends MainMenuPage {
     }
 
     public String getMealName(){
-        return  this.mealName.getText();
+        try{
+            return  this.mealName.getText();
+        }catch (Exception e){
+            System.out.println("error getting meal name");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public boolean clickOnChosenMealType(String typeName) throws InterruptedException {
-        WebElement types;
-        boolean result = false;
-        if(IsElementPresent(By.id(typeName),driver)) {
-            types = driver.findElement(By.id(typeName));
-            types.click();
-            timeToWait(1);
-            result = true;
+        try{
+            WebElement types;
+            boolean result = false;
+            if(IsElementPresent(By.id(typeName),driver)) {
+                types = driver.findElement(By.id(typeName));
+                types.click();
+                timeToWait(1);
+                result = true;
+            }
+            return result;
+        }catch (Exception e){
+            System.out.println("error clicking on meal type");
+            e.printStackTrace();
+            return false;
         }
-        return result;
+
     }
 
     public boolean clickOnChosenAddons(String addons) throws InterruptedException {
-        String[] addonsList = addons.split("\\s*,\\s*");
-        WebElement addonE;
-        boolean result = false;
-        for (String addon:addonsList) {
-            if(IsElementPresent(By.id(addon),driver)) {
-                addonE = driver.findElement(By.id(addon));
-                addonE.click();
-                result = true;
-                timeToWait(1);
+        try{
+            String[] addonsList = addons.split("\\s*,\\s*");
+            WebElement addonE;
+            boolean result = false;
+            for (String addon:addonsList) {
+                if(IsElementPresent(By.id(addon),driver)) {
+                    addonE = driver.findElement(By.id(addon));
+                    addonE.click();
+                    result = true;
+                    timeToWait(1);
+                }
+                else {
+                    result = false;
+                    break;
+                }
             }
-            else {
-                result = false;
-                break;
-            }
+            return result;
+        }catch (Exception e){
+            System.out.println("error clicking on chosen addons");
+            e.printStackTrace();
+            return false;
         }
-        return result;
+
     }
 
     public int getNumMealsBeforeAdd (){
-        return Integer.parseInt(this.numMealsToAdd.getText());
+        try{
+            return Integer.parseInt(this.numMealsToAdd.getText());
+        }catch (Exception e){
+            System.out.println("error in getting number of meals before adding to cart");
+            e.printStackTrace();
+            return -1;
+        }
     }
     //add meals to order before add to cart
     public void addMeals (String NumOfMeals) throws InterruptedException {
-        int NumOfMealsInt = Integer.parseInt(NumOfMeals);
-        for (int i=0 ; i <NumOfMealsInt;i++){
-            addMeal.click();
-            timeToWait(1);
+        try{
+            int NumOfMealsInt = Integer.parseInt(NumOfMeals);
+            for (int i=0 ; i <NumOfMealsInt;i++){
+                addMeal.click();
+                timeToWait(1);
+            }
+        }catch (Exception e){
+            System.out.println("error adding meals to order before adding to cart");
+            e.printStackTrace();
         }
+
     }
     //remove meal before add to cart
     public boolean removeMeals (String NumOfMeals) throws InterruptedException {
-        int NumOfMealsBeforeRem =getNumMealsBeforeAdd();
-        int NumOfMealsInt = Integer.parseInt(NumOfMeals);
-        if(NumOfMealsBeforeRem > NumOfMealsInt){
-            for (int i=0 ; i <NumOfMealsInt;i++){
-                if(removeMeal.isEnabled()) {
-                    removeMeal.click();
-                    timeToWait(0.5);
+        try{
+            int NumOfMealsBeforeRem =getNumMealsBeforeAdd();
+            int NumOfMealsInt = Integer.parseInt(NumOfMeals);
+            if(NumOfMealsBeforeRem > NumOfMealsInt){
+                for (int i=0 ; i <NumOfMealsInt;i++){
+                    if(removeMeal.isEnabled()) {
+                        removeMeal.click();
+                        timeToWait(0.5);
+                    }
                 }
-
+            }else {
+                return false;
             }
-        }else {
+            return true;
+        }catch (Exception e){
+            System.out.println("error removing meals before adding to cart");
+            e.printStackTrace();
             return false;
         }
-        return true;
+
     }
     //add meal to cart
     public boolean addMealsToCart () throws InterruptedException {
-        if(IsElementPresent(By.id(addMealToCartBtnEmptyId),driver) && !IsElementPresent(By.id(addMealToCartBtnNotEmptyId),driver)) {
-           return false;
+        try{
+            if(IsElementPresent(By.id(addMealToCartBtnEmptyId),driver) && !IsElementPresent(By.id(addMealToCartBtnNotEmptyId),driver)) {
+                return false;
+            }
+            else {
+                addMealToCartBtnNotEmpty = driver.findElement(By.id(addMealToCartBtnNotEmptyId));
+                addMealToCartBtnNotEmpty.click();
+                timeToWait(0.5);
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println("error adding meals to cart");
+            e.printStackTrace();
+            return false;
         }
-        else {
-            addMealToCartBtnNotEmpty = driver.findElement(By.id(addMealToCartBtnNotEmptyId));
-            addMealToCartBtnNotEmpty.click();
-            timeToWait(0.5);
-            return true;
-        }
+
     }
     //
     public int GetNumOfMealInCart (){
-        if(IsElementPresent(By.xpath(numOfMealInCartXpath),driver)) {
-            numOfMealInCart = driver.findElement(By.xpath(numOfMealInCartXpath));
-            return Integer.parseInt(numOfMealInCart.getText());
+        try{
+            if(IsElementPresent(By.xpath(numOfMealInCartXpath),driver)) {
+                numOfMealInCart = driver.findElement(By.xpath(numOfMealInCartXpath));
+                return Integer.parseInt(numOfMealInCart.getText());
+            }
+            else
+                return 0;
+        }catch (Exception e){
+            System.out.println("error getting number of meals in cart");
+            e.printStackTrace();
+            return -1;
         }
-        else
-            return 0;
+
     }
 
     // remove one meal from cart if existed
     public boolean removeMealsFromCart() throws InterruptedException {
-        if(IsElementPresent(By.id(removeMealFromCartId),driver) && GetNumOfMealInCart() >0) {
-            removeMealFromCart = driver.findElement(By.id(removeMealFromCartId));
-            removeMealFromCart.click();
-            timeToWait(0.5);
-            return true;
+        try{
+            if(IsElementPresent(By.id(removeMealFromCartId),driver) && GetNumOfMealInCart() >0) {
+                removeMealFromCart = driver.findElement(By.id(removeMealFromCartId));
+                removeMealFromCart.click();
+                timeToWait(0.5);
+                return true;
             }
-        else
+            else
+                return false;
+        }catch (Exception e){
+            System.out.println("error in removing meals from cart");
+            e.printStackTrace();
             return false;
+        }
+
     }
 
     public void exitMealModal() throws InterruptedException {
-        timeToWait(0.5);
-        closeModal.click();
+        try{
+            timeToWait(0.5);
+            closeModal.click();
+        }catch (Exception e){
+            System.out.println("error in exiting meals modal");
+            e.printStackTrace();
+        }
+
     }
 
 

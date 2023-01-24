@@ -25,20 +25,37 @@ public class LoginPage {
     }
 
     public void writeEmail(String email){
-        this.email.sendKeys(email);
+        try{
+            this.email.sendKeys(email);
+        }catch (Exception e){
+            System.out.println("error in writing email");
+            e.printStackTrace();
+        }
     }
     public void writePassword(String password){
-        this.password.sendKeys(password);
+        try{
+            this.password.sendKeys(password);
+        }catch (Exception e){
+            System.out.println("error in writing password");
+            e.printStackTrace();
+
+        }
     }
 
     public boolean clickLoginBtn() throws InterruptedException {
-        loginBtn.click();
-        if(!IsElementPresent(By.id(emailErrorId),driver) && !IsElementPresent(By.id(passwordErrorId),driver) ) {
-            Thread.sleep(1500);
-            if(!IsElementPresent(By.cssSelector(errorMessage),driver))
-                return true;
+        try {
+            loginBtn.click();
+            if (!IsElementPresent(By.id(emailErrorId), driver) && !IsElementPresent(By.id(passwordErrorId), driver)) {
+                Thread.sleep(1500);
+                if (!IsElementPresent(By.cssSelector(errorMessage), driver))
+                    return true;
+            }
+            return false;
+        }catch (Exception e){
+            System.out.println("error in clicking login button");
+            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
 }

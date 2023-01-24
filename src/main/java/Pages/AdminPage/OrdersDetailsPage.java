@@ -22,20 +22,39 @@ public class OrdersDetailsPage extends OrdersPage {
 
     }
     public void parseOrderList(){
-        for (WebElement order:orderList) {
-            detailedOrderList.add(new OrderDetail(driver,order));
+        try{
+            for (WebElement order:orderList) {
+                detailedOrderList.add(new OrderDetail(driver,order));
+            }
+        }catch (Exception e){
+            System.out.println("error on parsing order list");
+            e.printStackTrace();
         }
+
     }
     //check if order exist in the list of orders
     public boolean isOrderExist(String mealName,int finalQuantity,String type,String addons){
-        boolean resultFlag = false;
-        for (OrderDetail orderD:detailedOrderList) {
-            if(orderD.getOrderName().equals(mealName) && orderD.getOrderQuantity() == finalQuantity && orderD.getOrderType().equals(type) && orderD.compareAddons(addons) )
-                resultFlag = true;
+        try {
+            boolean resultFlag = false;
+            for (OrderDetail orderD:detailedOrderList) {
+                if(orderD.getOrderName().equals(mealName) && orderD.getOrderQuantity() == finalQuantity && orderD.getOrderType().equals(type) && orderD.compareAddons(addons) )
+                    resultFlag = true;
+            }
+            return resultFlag;
+        }catch (Exception e){
+            System.out.println("error on parsing order list");
+            e.printStackTrace();
+            return false;
         }
-        return resultFlag;
+
     }
     public String getCustomerEmail(){
-        return this.customerEmail.getText();
+        try{
+            return this.customerEmail.getText();
+        }catch (Exception e ){
+            System.out.println("error on parsing order list");
+            e.printStackTrace();
+            return null;
+        }
     }
 }

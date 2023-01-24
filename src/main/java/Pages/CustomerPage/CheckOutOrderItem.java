@@ -27,43 +27,108 @@ public class CheckOutOrderItem extends  CheckOutPage {
 
 
     public int getQuantity() {
-        return Integer.parseInt(quantity.getText());
+        try{
+            return Integer.parseInt(quantity.getText());
+        }catch (Exception e){
+            System.out.println("error in getting quantity");
+            e.printStackTrace();
+            return -1;
+        }
     }
 
     public String getName() {
-        return name.getText();
+        try{
+            return name.getText();
+        }catch (Exception e){
+            System.out.println("error in getting name");
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     public double getPrice() {
-        return  Double.parseDouble(price.getText());
+        try{
+            return  Double.parseDouble(price.getText());
+        }catch (Exception e){
+            System.out.println("error in getting price");
+            e.printStackTrace();
+            return -1.0;
+        }
+
     }
     public List<String> getAddons(){
-        return Arrays.asList(addons.getText().split("\\s*,\\s*"));
+        try{
+            return Arrays.asList(addons.getText().split("\\s*,\\s*"));
+        }catch (Exception e){
+            System.out.println("error in getting addons");
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     public String getType() {
-        return type.getText();
+        try{
+            return type.getText();
+        }catch (Exception e){
+            System.out.println("error in getting type of meal");
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public boolean compareName(String name){
-        return name.equals(getName());
+        try{
+            return name.equals(getName());
+        }catch (Exception e){
+            System.out.println("error in comparing names");
+            e.printStackTrace();
+            return false;
+        }
+
     }
     public boolean compareQuantity(String quantity){
         int quantityInt = Integer.parseInt(quantity);
         int orderQuantity = getQuantity();
-        return quantityInt == orderQuantity;
+        try{
+            return quantityInt == orderQuantity;
+        }catch (Exception e){
+            System.out.println("error in comparing quantity");
+            e.printStackTrace();
+            return false;
+        }
+
     }
     public boolean compareType(String type){
-        return type.equals(getType());
+        try{
+            return type.equals(getType());
+        }catch (Exception e){
+            System.out.println("error in comparing types");
+            e.printStackTrace();
+            return false;
+        }
     }
     public boolean compareAddons(String addons){
         List<String> addonsList = Arrays.asList(addons.split("\\s*,\\s*"));
-        return addonsList.equals(getAddons());
+        try{
+            return addonsList.equals(getAddons());
+        }catch (Exception e){
+            System.out.println("error in getting quantity");
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean checkOrderExist(String name,String quantity,String type,String addons){
-        return compareName(name) && compareQuantity(quantity)  && compareType(type)
-                && compareAddons(addons);
+        try{
+            return compareName(name) && compareQuantity(quantity)  && compareType(type)
+                    && compareAddons(addons);
+        }catch (Exception e){
+            System.out.println("error in checking order if exist");
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

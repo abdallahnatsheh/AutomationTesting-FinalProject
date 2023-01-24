@@ -18,19 +18,32 @@ public class MainMenuPage extends BasePage {
     }
 
     public int getMenuItemIndex(String itemName){
-        for(int i=0;i<menuList.size();i++) {
-            WebElement item = menuList.get(i).findElement(By.xpath(itemsXpath));
-            String text = item.getText();
-            if (itemName.equals(text))
-                return i;
+        try{
+            for(int i=0;i<menuList.size();i++) {
+                WebElement item = menuList.get(i).findElement(By.xpath(itemsXpath));
+                String text = item.getText();
+                if (itemName.equals(text))
+                    return i;
+            }
+            return -1;
+        }catch (Exception e){
+            System.out.println("error in getting menu item index ");
+            e.printStackTrace();
+            return -1;
         }
-        return -1;
+
     }
 
     public void clickOnMenuItem(int index) throws InterruptedException {
-        WebElement item = menuList.get(index);
-        item.click();
-        timeToWait(1);
+        try{
+            WebElement item = menuList.get(index);
+            item.click();
+            timeToWait(1);
+        }catch (Exception e){
+            System.out.println("error in clicking on menu item ");
+            e.printStackTrace();
+        }
+
     }
 
 

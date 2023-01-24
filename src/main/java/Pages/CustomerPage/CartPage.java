@@ -14,8 +14,14 @@ public class CartPage extends MainMenuPage {
         this.checkOutBtn = driver.findElement(By.id(checkOutBtnId));
     }
     public void clickCheckOutBtn() throws InterruptedException {
-        checkOutBtn.click();
-        timeToWait(0.5);
+        try{
+            checkOutBtn.click();
+            timeToWait(0.5);
+        }catch (Exception e){
+            System.out.println("error in Click checkout button");
+            e.printStackTrace();
+        }
+
     }
 
 

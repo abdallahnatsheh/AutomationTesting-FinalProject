@@ -17,19 +17,37 @@ public class BasePage {
         this.driver = driver;
     }
     public void loginPageBtnClick(){
-        this.loginPageBtn = driver.findElement(By.xpath(loginPageBtnXpath));
-        this.loginPageBtn.click();
+        try{
+            this.loginPageBtn = driver.findElement(By.xpath(loginPageBtnXpath));
+            this.loginPageBtn.click();
+        }catch (Exception e){
+            System.out.println("error in clicking login page button");
+            e.printStackTrace();
+        }
+
     }
 
 
     public void mainMenuPageBtnClick(){
-        this.mainMenuPageBtn = driver.findElement(By.xpath(mainMenuPageBtnXpath));
-        mainMenuPageBtn.click();
+        try{
+            this.mainMenuPageBtn = driver.findElement(By.xpath(mainMenuPageBtnXpath));
+            mainMenuPageBtn.click();
+        }catch (Exception e){
+            System.out.println("error in clicking main menu page button");
+            e.printStackTrace();
+        }
+
     }
 
     public void cartPageBtnClick(){
-        this.cartPageBtn = driver.findElement(By.xpath(cartPageBtnXpath));
-        cartPageBtn.click();
+        try{
+            this.cartPageBtn = driver.findElement(By.xpath(cartPageBtnXpath));
+            cartPageBtn.click();
+        }catch (Exception e){
+            System.out.println("error in clicking login page button");
+            e.printStackTrace();
+        }
+
     }
 
 

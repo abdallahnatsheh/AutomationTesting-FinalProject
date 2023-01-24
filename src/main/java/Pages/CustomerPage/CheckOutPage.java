@@ -24,34 +24,68 @@ public class CheckOutPage extends CartPage {
     }
 
     public double getFinalPriceE() {
-        return Double.parseDouble(finalPriceE.getText());
+        try{
+            return Double.parseDouble(finalPriceE.getText());
+        }catch (Exception e){
+            System.out.println("error in getting final price");
+            e.printStackTrace();
+            return -1.0;
+        }
     }
     public CheckOutOrderItem  getCheckOutOrderItem(String orderItemId){
-        return new CheckOutOrderItem(driver,orderItemId);
+        try{
+            return new CheckOutOrderItem(driver,orderItemId);
+        }catch (Exception e){
+            System.out.println("error in Click checkout button");
+            e.printStackTrace();
+            return null;
+        }
     }
     public boolean chooseOrderType(String ordeType){
-        if(IsElementPresent(By.id(ordeType),driver)){
-            orderTypeRadio = driver.findElement(By.id(ordeType));
-            orderTypeRadio.click();
-            return true;
-        }else
+        try{
+            if(IsElementPresent(By.id(ordeType),driver)){
+                orderTypeRadio = driver.findElement(By.id(ordeType));
+                orderTypeRadio.click();
+                return true;
+            }else
+                return false;
+        }catch (Exception e){
+            System.out.println("error in Click checkout button");
+            e.printStackTrace();
             return false;
+        }
     }
 
     public void writeNotes(String notes){
-        this.orderNotes.sendKeys(notes);
+        try{
+            this.orderNotes.sendKeys(notes);
+        }catch (Exception e){
+            System.out.println("error in Click checkout button");
+            e.printStackTrace();
+        }
     }
 
     public boolean clickPayCash () throws InterruptedException {
-        if(this.payCash.isEnabled()){
-            payCash.click();
-            timeToWait(2);
-            return true;
-        }
-        else
+        try{
+            if(this.payCash.isEnabled()){
+                payCash.click();
+                timeToWait(2);
+                return true;
+            }
+            else
+                return false;
+        }catch (Exception e){
+            System.out.println("error in Click checkout button");
+            e.printStackTrace();
             return false;
+        }
     }
     public void closeCheckOutDialog(){
-        closeCheckOut.click();
+        try{
+            closeCheckOut.click();
+        }catch (Exception e){
+            System.out.println("error in Click checkout button");
+            e.printStackTrace();
+        }
     }
 }

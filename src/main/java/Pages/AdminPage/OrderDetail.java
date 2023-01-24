@@ -26,20 +26,52 @@ public class OrderDetail extends OrdersDetailsPage {
     }
 
     public String getOrderName(){
+        try{
         return this.orderNameEL.getText();
+        }
+        catch (Exception e){
+            System.out.println("error getting order name");
+            e.printStackTrace();
+            return null;
+        }
     }
     public String getOrderType(){
-      return this.orderTypeEL.getText();
+    try{
+        return this.orderTypeEL.getText();
+    }catch (Exception e){
+        System.out.println("error getting order type");
+        e.printStackTrace();
+        return null;
+        }
     }
-    public List<String> getOrderAddons(){
-        return Arrays.asList(order.findElement(By.id("order-addons")).getText().split("\\s*,\\s*"));
+    public List<String> getOrderAddons() {
+        try {
+            return Arrays.asList(order.findElement(By.id("order-addons")).getText().split("\\s*,\\s*"));
+        } catch (Exception e) {
+            System.out.println("error getting order addons");
+            e.printStackTrace();
+            return null;
+        }
     }
     public int getOrderQuantity(){
-        return Integer.parseInt(this.orderQuantityEL.getText());
+        try{
+            return Integer.parseInt(this.orderQuantityEL.getText());
+        }catch (Exception e){
+            System.out.println("error getting order quantity");
+            e.printStackTrace();
+            return -1;
+        }
     }
     public boolean compareAddons(String addons){
-        List<String> addonsList = Arrays.asList(addons.split("\\s*,\\s*"));
-        return addonsList.equals(getOrderAddons());
+        try{
+            List<String> addonsList = Arrays.asList(addons.split("\\s*,\\s*"));
+            return addonsList.equals(getOrderAddons());
+        }catch (Exception e){
+            System.out.println("error in comparing addons");
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
 }
